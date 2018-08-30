@@ -29,5 +29,5 @@ initWindow(windows_description *Window, HINSTANCE Instance);
 void 
 updateScreen(windows_description *Window);
 
-int 
+void
 receiveInput(void *StatePtr, model_description *Model);
