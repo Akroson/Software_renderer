@@ -138,19 +138,10 @@ void
 receiveInput(void *StatePtr, model_description *Model)
 {
 	MSG Message;
+	render_state *State = (render_state *)StatePtr;
 
 	while (PeekMessage(&Message, 0, 0, 0, PM_REMOVE))
 	{
-		render_state *State = (render_state *)StatePtr;
-
-		if (Message.message == WM_QUIT)
-		{
-			State->running = false;
-		}
-
-		TranslateMessage(&Message);
-		DispatchMessageA(&Message);
-
 		switch (Message.message)
 		{
 			case WM_MOUSEMOVE:
@@ -196,6 +187,15 @@ receiveInput(void *StatePtr, model_description *Model)
 			{
 				bool press = Message.lParam & (1 << 31);
 				processKeyboard(State, Model, (uint32)Message.wParam, press);
+			} break;
+			case WM_QUIT:
+			{
+				State->running = false;
+			}
+			default:
+			{
+				TranslateMessage(&Message);
+				DispatchMessageA(&Message);
 			} break;
 		}
 	}

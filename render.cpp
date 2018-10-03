@@ -242,7 +242,7 @@ prepareSecondPartStep(rasterization_info *RasterInfo, render_state *State, int m
 	}
 }
 
-static void
+static inline void
 stepOverY(step_info *Step, edge_step_info *EdgeStep)
 {
 	__m128 edgeStep = _mm_load_ps((float *)EdgeStep + 4);
@@ -644,30 +644,30 @@ moveVecTowards(vec3f *pos, vec3f *dir, uint32 vkCode, float step)
 
 	switch (vkCode)
 	{
-	case 'W':
-	{
-		shift = *dir * step;
-		*pos += shift;
-	} break;
-	case 'S':
-	{
-		shift = *dir * step;
-		*pos -= shift;
-	} break;
-	case 'A':
-	{
-		shift = cross(dir, &up);
-		normalize(&shift);
-		shift *= step;
-		*pos += shift;
-	} break;
-	case 'D':
-	{
-		shift = cross(dir, &up);
-		normalize(&shift);
-		shift *= step;
-		*pos -= shift;
-	} break;
+		case 'W':
+		{
+			shift = *dir * step;
+			*pos += shift;
+		} break;
+		case 'S':
+		{
+			shift = *dir * step;
+			*pos -= shift;
+		} break;
+		case 'A':
+		{
+			shift = cross(dir, &up);
+			normalize(&shift);
+			shift *= step;
+			*pos += shift;
+		} break;
+		case 'D':
+		{
+			shift = cross(dir, &up);
+			normalize(&shift);
+			shift *= step;
+			*pos -= shift;
+		} break;
 	}
 }
 
@@ -742,8 +742,8 @@ processKeyboard(render_state *State, model_description *Model, uint32 vkCode, bo
 				if (Model->inclusiveParam & DIFFUSE_SET)
 				{
 					State->renderParam ^= DIFFUSE_SET;
-					uint8 id = (State->renderParam << 1);
-					id >>= 2;
+
+					uint8 id = (State->renderParam << 1) >> 2;
 					State->drawLine = (void *)funcPtr[id];
 				}
 			}
@@ -756,8 +756,8 @@ processKeyboard(render_state *State, model_description *Model, uint32 vkCode, bo
 				if (Model->inclusiveParam & NORMAL_SET)
 				{
 					State->renderParam ^= NORMAL_SET;
-					uint8 id = (State->renderParam << 1);
-					id >>= 2;
+
+					uint8 id = (State->renderParam << 1) >> 2;
 					State->drawLine = (void *)funcPtr[id];
 				}
 			}*/

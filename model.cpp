@@ -360,8 +360,6 @@ loadBmpMap(model_description *Model, LPSTR Name, int typeMap)
 uint8
 prepareModel(model_description *Model, LPSTR Name)
 {
-	// "E:\tnp\tinyrenderer-master\tinyrenderer-master\obj\african_head\african_head.obj"
-
 	if (loadVert(Model, Name))
 	{
 		Model->inclusiveParam |= VERT_SET;
